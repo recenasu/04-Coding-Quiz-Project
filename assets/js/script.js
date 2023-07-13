@@ -9,6 +9,7 @@ var answer2Field = document.createElement("li");
 var answer3Field = document.createElement("li");
 var answer4Field = document.createElement("li");
 var resultField = document.createElement("h4");
+var rightAnswerKey = "3";
 
 
 
@@ -41,6 +42,7 @@ function setTime() {
         document.body.children[3].appendChild(answer4Field);
         document.body.children[3].appendChild(resultField);
 
+        // populate the question and answer fields.
         questionField.textContent = "question";
         answerList.textContent = "Select one answer";
         answer1Field.textContent = "answer";
@@ -48,13 +50,37 @@ function setTime() {
         answer3Field.textContent = "answer";
         answer4Field.textContent = "answer";
 
+        // Add event listeners for the answers to be selectable and execute either the wrongAnswer or rightAnswer function.
+        setAnswers()
+
+    }, 1000)
+}
+
+function setAnswers () {
+    if (rightAnswerKey === "1") {
+        answer1Field.addEventListener("click", rightAnswer);
+        answer2Field.addEventListener("click", wrongAnswer);
+        answer3Field.addEventListener("click", wrongAnswer);
+        answer4Field.addEventListener("click", wrongAnswer);        
+    } else if (rightAnswerKey === "2") {
         answer1Field.addEventListener("click", wrongAnswer);
         answer2Field.addEventListener("click", rightAnswer);
         answer3Field.addEventListener("click", wrongAnswer);
         answer4Field.addEventListener("click", wrongAnswer);
-
-    }, 1000)
+    } else if (rightAnswerKey === "3") {
+        answer1Field.addEventListener("click", wrongAnswer);
+        answer2Field.addEventListener("click", wrongAnswer);
+        answer3Field.addEventListener("click", rightAnswer);
+        answer4Field.addEventListener("click", wrongAnswer);
+    } else if (rightAnswerKey === "4") {
+        answer1Field.addEventListener("click", wrongAnswer);
+        answer2Field.addEventListener("click", wrongAnswer);
+        answer3Field.addEventListener("click", wrongAnswer);
+        answer4Field.addEventListener("click", rightAnswer);
+    }
 }
+
+
 
 function wrongAnswer() {
     resultField.textContent = "INCORRECT!";
