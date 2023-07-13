@@ -2,6 +2,10 @@ h1 {
     text-align: center;
 }
 
+h4 {
+    text-align: center;
+}
+
 .time {
     text-align: center;
 }
@@ -21,4 +25,16 @@ button {
     color: white;
     border-radius: 1px;
     
+  }
+
+  #qAndA {
+    width: 40%;
+    text-align: center;
+    margin-left: 30%;
+    margin-right: 30%;
+  }
+
+  li {
+    list-style-type: circle;
+    text-align: left;
   }
