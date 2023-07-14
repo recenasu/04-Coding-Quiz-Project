@@ -53,6 +53,7 @@ ul {
     width: 40%;
     display:flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     margin-top: 10px;
     margin-bottom: 10px;
