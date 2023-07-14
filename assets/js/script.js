@@ -2,6 +2,7 @@
 var timeEl = document.querySelector(".time");
 var secondsLeft = 60;
 var startButton = document.querySelector("#startQuiz");
+var qAndA = document.querySelector("#qAndA");
 var questionField = document.createElement("h4");
 var answerList = document.createElement("ul");
 var answer1Field = document.createElement("li");
@@ -92,7 +93,8 @@ function setTime() {
 
     // Hide the Start Quiz button
     // startButton.style.display = "none";
-    document.body.children[2].remove(startButton);
+    document.body.children[2].removeChild(startButton);
+    
 
 
 
@@ -106,28 +108,32 @@ function setTime() {
             timeEl.textContent = "Quiz over! \n Your final score is " + secondsLeft + "!!";
             timeEl.style.color = "black";
             // Remove the quiz elements
-            document.body.children[2].remove(questionField);
-            document.body.children[2].remove(answerList);
-            document.body.children[2].remove(resultField);
+            document.body.children[3].removeChild(questionField);
+            document.body.children[3].removeChild(answerList);
+            document.body.children[3].removeChild(answer1Field);
+            document.body.children[3].removeChild(answer2Field);
+            document.body.children[3].removeChild(answer3Field);
+            document.body.children[3].removeChild(answer4Field);
+            document.body.children[3].removeChild(resultField);
+            return;
             inputForm.className = "input-form";
-            document.body.appendChild(inputForm);
-            document.body.children[2].appendChild(labelEl);
-            document.body.children[2].appendChild(inputEl);
-            document.body.children[2].appendChild(submitEl);
+            document.body.children[3].appendChild(labelEl);
+            document.body.children[3].appendChild(inputEl);
+            document.body.children[3].appendChild(submitEl);
             labelEl.textContent = "Enter your initials:";
             submitEl.textContent = "Submit";
 
             submitEl.addEventListener("click", function (event) {
                 event.preventDefault();
                 saveLastScore();
-                document.body.appendChild(inputForm);
-                document.body.children[2].remove(submitEl);
-                document.body.children[1].appendChild(highScoreList);
-                document.body.children[1].appendChild(highScore1);
-                document.body.children[1].appendChild(highScore2);
-                document.body.children[1].appendChild(highScore3);
-                document.body.children[1].appendChild(highScore4);
-                document.body.children[1].appendChild(highScore5);
+                // document.body.appendChild(inputForm);
+                document.body.children[3].remove(submitEl);
+                document.body.children[3].appendChild(highScoreList);
+                document.body.children[3].appendChild(highScore1);
+                document.body.children[3].appendChild(highScore2);
+                document.body.children[3].appendChild(highScore3);
+                document.body.children[3].appendChild(highScore4);
+                document.body.children[3].appendChild(highScore5);
                 timeEl.textContent = "High Scores!!";
                 timeEl.style.color = "black";
                 renderScores();
@@ -141,13 +147,13 @@ function setTime() {
             // Display countdown.
             timeEl.textContent = secondsLeft + " seconds remaining";
             // Display the quiz elements
-            document.body.children[2].appendChild(questionField);
-            document.body.children[2].appendChild(answerList);
-            document.body.children[2].appendChild(answer1Field);
-            document.body.children[2].appendChild(answer2Field);
-            document.body.children[2].appendChild(answer3Field);
-            document.body.children[2].appendChild(answer4Field);
-            document.body.children[2].appendChild(resultField);
+            document.body.children[3].appendChild(questionField);
+            document.body.children[3].appendChild(answerList);
+            document.body.children[3].appendChild(answer1Field);
+            document.body.children[3].appendChild(answer2Field);
+            document.body.children[3].appendChild(answer3Field);
+            document.body.children[3].appendChild(answer4Field);
+            document.body.children[3].appendChild(resultField);
 
             nextQuestion(questionCounter);
 
