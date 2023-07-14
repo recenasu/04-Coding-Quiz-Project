@@ -1,9 +1,14 @@
+* {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
 h1 {
     text-align: center;
 }
 
 h4 {
     text-align: center;
+    font-size: 28px;
 }
 
 .time {
@@ -43,13 +48,14 @@ ul {
   li {
     list-style-type: circle;
     text-align: left;
+    font-size: 18px;
   }
 
   label {
     color: #212121;
   }
   
-  .input-form {
+  #input-form {
     width: 40%;
     display:flex;
     flex-direction: row;
@@ -83,4 +89,14 @@ ul {
   
   input:hover {
     background-color: #e8eaed;
+  }
+
+  #input-form li {
+    line-height: 40px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  li:hover {
+    background-color: rgb(59, 157, 206);
   }

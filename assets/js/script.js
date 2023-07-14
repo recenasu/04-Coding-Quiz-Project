@@ -10,7 +10,6 @@ var answer2Field = document.createElement("li");
 var answer3Field = document.createElement("li");
 var answer4Field = document.createElement("li");
 var resultField = document.createElement("h4");
-var inputForm = document.createElement("div");
 var labelEl = document.createElement("label");
 var inputEl = document.createElement("input");
 var submitEl = document.createElement("button");
@@ -85,8 +84,21 @@ var question006 = {
 // Array variable containing the question bank objects.
 var questionBank = [question001, question002, question003, question004, question005, question006];
 
+// Objects to hold top 3 high scores pulled from local storage.
+var highRecordedScore1 = {
+    player: "-",
+    score: "-"
+}
 
+var highRecordedScore2 = {
+    player: "-",
+    score: "-"
+}
 
+var highRecordedScore3 = {
+    player: "-",
+    score: "-"
+}
 
 // Quiz timer function.
 function setTime() {
@@ -94,7 +106,7 @@ function setTime() {
     // Hide the Start Quiz button
     // startButton.style.display = "none";
     document.body.children[2].removeChild(startButton);
-    
+
 
 
 
@@ -115,33 +127,38 @@ function setTime() {
             document.body.children[3].removeChild(answer3Field);
             document.body.children[3].removeChild(answer4Field);
             document.body.children[3].removeChild(resultField);
-            return;
-            inputForm.className = "input-form";
-            document.body.children[3].appendChild(labelEl);
-            document.body.children[3].appendChild(inputEl);
-            document.body.children[3].appendChild(submitEl);
+            // Add elements for the player to enter their initials with a Submit button
+            document.body.children[4].appendChild(labelEl);
+            document.body.children[4].appendChild(inputEl);
+            document.body.children[4].appendChild(submitEl);
             labelEl.textContent = "Enter your initials:";
             submitEl.textContent = "Submit";
 
+            // When the Submit button is pressed, do the following:
             submitEl.addEventListener("click", function (event) {
                 event.preventDefault();
+                if (inputEl.value === "") {
+                    timeEl.textContent = "Please enter text in the field";
+                timeEl.style.color = "blue";
+                } else {
+                
                 saveLastScore();
-                // document.body.appendChild(inputForm);
-                document.body.children[3].remove(submitEl);
-                document.body.children[3].appendChild(highScoreList);
-                document.body.children[3].appendChild(highScore1);
-                document.body.children[3].appendChild(highScore2);
-                document.body.children[3].appendChild(highScore3);
-                document.body.children[3].appendChild(highScore4);
-                document.body.children[3].appendChild(highScore5);
+                document.body.children[4].removeChild(inputEl); document.body.children[4].removeChild(labelEl);
+                document.body.children[4].removeChild(submitEl);
+                document.body.children[4].appendChild(highScoreList);
+                document.body.children[4].children[0].appendChild(highScore1);
+                document.body.children[4].children[0].appendChild(highScore2);
+                document.body.children[4].children[0].appendChild(highScore3);
                 timeEl.textContent = "High Scores!!";
                 timeEl.style.color = "black";
                 renderScores();
-                startButton.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    startQuiz();
-                })
+                highScore1.textContent = highRecordedScore1.player + " got a " + highRecordedScore1.score;
+                highScore2.textContent = highRecordedScore2.player + " got a " + highRecordedScore2.score;
+                highScore3.textContent = highRecordedScore3.player + " got a " + highRecordedScore3.score;
+                timeEl.style.color = "black";
+                }
             })
+
 
         } else {
             // Display countdown.
@@ -168,6 +185,7 @@ function setTime() {
 
 }
 
+// Configure the event listeners on the answers to perform the correct function when the right and wrong answers are selected
 function setAnswers() {
     if (rightAnswerKey === "1") {
         answer1Field.addEventListener("click", rightAnswer);
@@ -240,54 +258,36 @@ function saveLastScore() {
         player: inputEl.value,
         score: secondsLeft
     }
+//    If nothing exists in local storage, add the last score to the scoresArray.
     if (localStorage.getItem("storedScores") === null) {
-        scoresArray.push(lastScore);
+        scoresArray.unshift(lastScore);
         localStorage.setItem("storedScores", JSON.stringify(scoresArray));
     } else {
+        // If scores exist in local storage, parse the stored data into the scoresArray, then add the last score to the scoresArray.
         scoresArray = JSON.parse(localStorage.getItem("storedScores"));
-        scoresArray.push(lastScore);
+        scoresArray.unshift(lastScore);
         localStorage.setItem("storedScores", JSON.stringify(scoresArray));
     }
 }
 
-// Save the initials and last score to an object. 
+// Pull the scores from local storage into the scoresArray, pull the objects from the array and assign them to variables. 
 function renderScores() {
     scoresArray = JSON.parse(localStorage.getItem("storedScores"));
-    if (scoresArray.length > 4) {
-        highScore1.textContent = scoresArray[0];
-        highScore2.textContent = scoresArray[1];
-        highScore3.textContent = scoresArray[2];
-        highScore4.textContent = scoresArray[3];
-        highScore5.textContent = scoresArray[4];
-    } else if (scoresArray.length > 3) {
-        highScore1.textContent = scoresArray[0];
-        highScore2.textContent = scoresArray[1];
-        highScore3.textContent = scoresArray[2];
-        highScore4.textContent = scoresArray[3];
-        highScore5.textContent = "none";
-    } else if (scoresArray.length > 2) {
-        highScore1.textContent = scoresArray[0];
-        highScore2.textContent = scoresArray[1];
-        highScore3.textContent = scoresArray[2];
-        highScore4.textContent = "none";
-        highScore5.textContent = "none";
+    if (scoresArray.length > 2) {
+        highRecordedScore1 = scoresArray[0];
+        highRecordedScore2 = scoresArray[1];
+        highRecordedScore3 = scoresArray[2];
     } else if (scoresArray.length > 1) {
-        highScore1.textContent = scoresArray[0];
-        highScore2.textContent = scoresArray[1];
-        highScore3.textContent = "none";
-        highScore4.textContent = "none";
-        highScore5.textContent = "none";
+        highRecordedScore1 = scoresArray[0];
+        highRecordedScore2 = scoresArray[1];
     }
     else if (scoresArray.length > 0) {
-        highScore1.textContent = scoresArray[0];
-        highScore2.textContent = "none";
-        highScore3.textContent = "none";
-        highScore4.textContent = "none";
-        highScore5.textContent = "none";
+        highRecordedScore1 = scoresArray[0];
+
     }
 }
 
-    
+
 
 // Start Quiz button event listener for launching the quiz
 function startQuiz() {
