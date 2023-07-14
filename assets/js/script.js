@@ -9,6 +9,9 @@ var answer2Field = document.createElement("li");
 var answer3Field = document.createElement("li");
 var answer4Field = document.createElement("li");
 var resultField = document.createElement("h4");
+var inputForm = document.createElement("div");
+var labelEl = document.createElement("label");
+var inputEl = document.createElement("input");
 var rightAnswerKey = "";
 var questionCounter = 0;
 var finalScore = "";
@@ -84,8 +87,8 @@ function setTime() {
 
     var timerInterval = setInterval(function () {
         secondsLeft--;
-
-        if (questionCounter >= questionBank.length || secondsLeft <= 0) {
+        // 
+        if (questionCounter >= questionBank.length === undefined || secondsLeft <= 0) {
             // stop the timer
             clearInterval(timerInterval);
             // Display the final score
@@ -94,11 +97,12 @@ function setTime() {
             // Remove the quiz elements
             document.body.children[3].remove(questionField);
             document.body.children[3].remove(answerList);
-            document.body.children[3].remove(answer1Field);
-            document.body.children[3].remove(answer2Field);
-            document.body.children[3].remove(answer3Field);
-            document.body.children[3].remove(answer4Field);
             document.body.children[3].remove(resultField);
+            inputForm.className = "input-form";
+            document.body.appendChild(inputForm);
+            document.body.children[3].appendChild(labelEl);
+            document.body.children[3].appendChild(inputEl);
+            labelEl.textContent = "Enter your initials:"
             sendMessage();
 
         } else {
@@ -174,25 +178,30 @@ function rightAnswer() {
 
 function nextQuestion(questionCounter) {
 
-    // Pull data from the next question object to populate the question and answer fields and obtain the right answer.
-    questionField.textContent = questionBank[questionCounter].questionDisplayed;
-    answerList.textContent = "Select one answer"
-    answer1Field.textContent = questionBank[questionCounter].answerDisplayed1;
-    answer2Field.textContent = questionBank[questionCounter].answerDisplayed2;
-    answer3Field.textContent = questionBank[questionCounter].answerDisplayed3;
-    answer4Field.textContent = questionBank[questionCounter].answerDisplayed4;
-    rightAnswerKey = questionBank[questionCounter].correctAnswer;
+    if (questionBank[questionCounter] === undefined) {
+        return;
+    } else {
+        // Pull data from the next question object to populate the question and answer fields and obtain the right answer.
+        questionField.textContent = questionBank[questionCounter].questionDisplayed;
+        answerList.textContent = "Select one answer"
+        answer1Field.textContent = questionBank[questionCounter].answerDisplayed1;
+        answer2Field.textContent = questionBank[questionCounter].answerDisplayed2;
+        answer3Field.textContent = questionBank[questionCounter].answerDisplayed3;
+        answer4Field.textContent = questionBank[questionCounter].answerDisplayed4;
+        rightAnswerKey = questionBank[questionCounter].correctAnswer;
 
 
-    // Add event listeners for the answers to be selectable and execute either the wrongAnswer or rightAnswer function based on the value of the rightAnswerKey variable.
-    setAnswers();
+        // Add event listeners for the answers to be selectable and execute either the wrongAnswer or rightAnswer function based on the value of the rightAnswerKey variable.
+        setAnswers();
+    }
 }
 
 // Display message when the timer in the setTime() function reaches 0, and change text color back to black.
 function sendMessage() {
 
-
-
+    // document.body.children[4].appendChild(labelEl);
+    // document.body.children[4].appendChild(inputEl);
+    // labelEl.textContent = "Enter your initials:"
 }
 
 // Start Quiz button event listener for launching the quiz
