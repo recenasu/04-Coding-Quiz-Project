@@ -28,20 +28,20 @@ var scoresArray = [];
 
 // Question bank. Each question object contains a question, answers, and the correct answer identified.
 var question001 = {
-    questionDisplayed: "What is your name?",
-    answerDisplayed1: "Sir Lancelot",
-    answerDisplayed2: "Sir Gawain",
-    answerDisplayed3: "Sir Percival",
-    answerDisplayed4: "Sir Robin",
-    correctAnswer: "1"
+    questionDisplayed: "What is a JavaScript function?",
+    answerDisplayed1: "Add, Subtract, Multiply, Divide",
+    answerDisplayed2: "The browser",
+    answerDisplayed3: "Computer memory",
+    answerDisplayed4: "A resusable block of code that performs specific tasks",
+    correctAnswer: "4"
 };
 
 var question002 = {
     questionDisplayed: "What is JavaScript's primary role for a web page?",
-    answerDisplayed1: "calculations and interactivity",
-    answerDisplayed2: "formatting",
-    answerDisplayed3: "colors",
-    answerDisplayed4: "layout",
+    answerDisplayed1: "Calculations and interactivity",
+    answerDisplayed2: "Formatting",
+    answerDisplayed3: "Colors",
+    answerDisplayed4: "Layout",
     correctAnswer: "1"
 };
 
@@ -49,17 +49,17 @@ var question003 = {
     questionDisplayed: "What is not a js element?",
     answerDisplayed1: "h1",
     answerDisplayed2: "p",
-    answerDisplayed3: "motivate",
+    answerDisplayed3: "motorboat",
     answerDisplayed4: "ul",
     correctAnswer: "3"
 };
 
 var question004 = {
-    questionDisplayed: "Select one way js can be referenced in an HTML document?",
-    answerDisplayed1: "print documents",
-    answerDisplayed2: "referencing a separate.js file",
-    answerDisplayed3: "Google",
-    answerDisplayed4: "css",
+    questionDisplayed: "What is an array?",
+    answerDisplayed1: "A color palette",
+    answerDisplayed2: "A single variable used to store a set of data",
+    answerDisplayed3: "A special kind of radar",
+    answerDisplayed4: "The opposite of dis-array",
     correctAnswer: "2"
 };
 
@@ -139,23 +139,33 @@ function setTime() {
                 event.preventDefault();
                 if (inputEl.value === "") {
                     timeEl.textContent = "Please enter text in the field";
-                timeEl.style.color = "blue";
+                    timeEl.style.color = "blue";
                 } else {
-                
-                saveLastScore();
-                document.body.children[4].removeChild(inputEl); document.body.children[4].removeChild(labelEl);
-                document.body.children[4].removeChild(submitEl);
-                document.body.children[4].appendChild(highScoreList);
-                document.body.children[4].children[0].appendChild(highScore1);
-                document.body.children[4].children[0].appendChild(highScore2);
-                document.body.children[4].children[0].appendChild(highScore3);
-                timeEl.textContent = "High Scores!!";
-                timeEl.style.color = "black";
-                renderScores();
-                highScore1.textContent = highRecordedScore1.player + " got a " + highRecordedScore1.score;
-                highScore2.textContent = highRecordedScore2.player + " got a " + highRecordedScore2.score;
-                highScore3.textContent = highRecordedScore3.player + " got a " + highRecordedScore3.score;
-                timeEl.style.color = "black";
+
+                    saveLastScore();
+                    document.body.children[4].removeChild(inputEl); 
+                    document.body.children[4].removeChild(labelEl);
+                    document.body.children[4].removeChild(submitEl);
+                    document.body.children[4].appendChild(highScoreList);
+                    document.body.children[4].children[0].appendChild(highScore1);
+                    document.body.children[4].children[0].appendChild(highScore2);
+                    document.body.children[4].children[0].appendChild(highScore3);
+                    timeEl.textContent = "High Scores!!";
+                    timeEl.style.color = "black";
+                    renderScores();
+                    highScore1.textContent = highRecordedScore1.player + "   scored a   " + highRecordedScore1.score;
+                    if (highRecordedScore2.player !== "-") {
+                        highScore2.textContent = highRecordedScore2.player + "   scored a   " + highRecordedScore2.score;
+                    } else {
+                        highScore2.textContent = "-----";
+                    }
+                    if (highRecordedScore3.player !== "-") {
+                        highScore3.textContent = highRecordedScore3.player + "   scored a   " + highRecordedScore3.score;
+                    } else {
+                        highScore3.textContent = "-----";
+                    }
+
+                    timeEl.style.color = "black";
                 }
             })
 
@@ -181,57 +191,99 @@ function setTime() {
         }
 
     }, 1000);
-
-
 }
 
 // Configure the event listeners on the answers to perform the correct function when the right and wrong answers are selected
 function setAnswers() {
+    answer1Field.addEventListener("click", checkAnswer1);
+    answer2Field.addEventListener("click", checkAnswer2);
+    answer3Field.addEventListener("click", checkAnswer3);
+    answer4Field.addEventListener("click", checkAnswer4);
+}
+
+function checkAnswer1() {
     if (rightAnswerKey === "1") {
-        answer1Field.addEventListener("click", rightAnswer);
-        answer2Field.addEventListener("click", wrongAnswer);
-        answer3Field.addEventListener("click", wrongAnswer);
-        answer4Field.addEventListener("click", wrongAnswer);
-    } else if (rightAnswerKey === "2") {
-        answer1Field.addEventListener("click", wrongAnswer);
-        answer2Field.addEventListener("click", rightAnswer);
-        answer3Field.addEventListener("click", wrongAnswer);
-        answer4Field.addEventListener("click", wrongAnswer);
-    } else if (rightAnswerKey === "3") {
-        answer1Field.addEventListener("click", wrongAnswer);
-        answer2Field.addEventListener("click", wrongAnswer);
-        answer3Field.addEventListener("click", rightAnswer);
-        answer4Field.addEventListener("click", wrongAnswer);
-    } else if (rightAnswerKey === "4") {
-        answer1Field.addEventListener("click", wrongAnswer);
-        answer2Field.addEventListener("click", wrongAnswer);
-        answer3Field.addEventListener("click", wrongAnswer);
-        answer4Field.addEventListener("click", rightAnswer);
+        resultField.textContent = "CORRECT!";
+        resultField.style.color = "green";
+        // Increment the question counter
+        questionCounter++;
+        rightAnswerKey === "";
+        // Go to the next question
+        nextQuestion(questionCounter);
+    } else {
+        resultField.textContent = "INCORRECT!";
+        resultField.style.color = "red";
+        // Increment the question counter
+        questionCounter++;
+        // Decrement timer
+        secondsLeft = secondsLeft - 10;
+        rightAnswerKey === "";
+        nextQuestion(questionCounter);
     }
-
 }
 
-
-// Wrong answer actions. Display an "INCORRECT" message. Decrement timer as a penalty against the final score.
-function wrongAnswer() {
-    resultField.textContent = "INCORRECT!";
-    resultField.style.color = "red";
-    // Increment the question counter
-    questionCounter++;
-    // Decrement timer
-    secondsLeft = secondsLeft - 10;
-    nextQuestion(questionCounter);
+function checkAnswer2() {
+    if (rightAnswerKey === "2") {
+        resultField.textContent = "CORRECT!";
+        resultField.style.color = "green";
+        // Increment the question counter
+        questionCounter++;
+        rightAnswerKey === "";
+        // Go to the next question
+        nextQuestion(questionCounter);
+    } else {
+        resultField.textContent = "INCORRECT!";
+        resultField.style.color = "red";
+        // Increment the question counter
+        questionCounter++;
+        // Decrement timer
+        secondsLeft = secondsLeft - 10;
+        rightAnswerKey === "";
+        nextQuestion(questionCounter);
+    }
 }
 
-function rightAnswer() {
-    resultField.textContent = "CORRECT!";
-    resultField.style.color = "green";
-    // Increment the question counter
-    questionCounter++;
-    // Go to the next question
-    nextQuestion(questionCounter);
+function checkAnswer3() {
+    if (rightAnswerKey === "3") {
+        resultField.textContent = "CORRECT!";
+        resultField.style.color = "green";
+        // Increment the question counter
+        questionCounter++;
+        rightAnswerKey === "";
+        // Go to the next question
+        nextQuestion(questionCounter);
+    } else {
+        resultField.textContent = "INCORRECT!";
+        resultField.style.color = "red";
+        // Increment the question counter
+        questionCounter++;
+        // Decrement timer
+        secondsLeft = secondsLeft - 10;
+        rightAnswerKey === "";
+        nextQuestion(questionCounter);
+    }
 }
 
+function checkAnswer4() {
+    if (rightAnswerKey === "4") {
+        resultField.textContent = "CORRECT!";
+        resultField.style.color = "green";
+        // Increment the question counter
+        questionCounter++;
+        rightAnswerKey === "";
+        // Go to the next question
+        nextQuestion(questionCounter);
+    } else {
+        resultField.textContent = "INCORRECT!";
+        resultField.style.color = "red";
+        // Increment the question counter
+        questionCounter++;
+        // Decrement timer
+        secondsLeft = secondsLeft - 10;
+        rightAnswerKey === "";
+        nextQuestion(questionCounter);
+    }
+}
 function nextQuestion(questionCounter) {
 
     if (questionBank[questionCounter] === undefined) {
@@ -255,10 +307,10 @@ function nextQuestion(questionCounter) {
 // Save the initials and last score to an object. 
 function saveLastScore() {
     var lastScore = {
-        player: inputEl.value,
+        player: inputEl.value.trim(),
         score: secondsLeft
     }
-//    If nothing exists in local storage, add the last score to the scoresArray.
+    //    If nothing exists in local storage, add the last score to the scoresArray.
     if (localStorage.getItem("storedScores") === null) {
         scoresArray.unshift(lastScore);
         localStorage.setItem("storedScores", JSON.stringify(scoresArray));
