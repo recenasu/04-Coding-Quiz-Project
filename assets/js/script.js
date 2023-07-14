@@ -26,7 +26,7 @@ var questionCounter = 0;
 var finalScore = "";
 var scoresArray = [];
 
-// Question bank. Each question object contains a question, answers, and the correct answer identified.
+// Question bank. Each question object contains a question, answers, and the number of the correct answer.
 var question001 = {
     questionDisplayed: "What is a JavaScript function?",
     answerDisplayed1: "Add, Subtract, Multiply, Divide",
@@ -107,12 +107,10 @@ function setTime() {
     // startButton.style.display = "none";
     document.body.children[2].removeChild(startButton);
 
-
-
-
+    // Timer interval function
     var timerInterval = setInterval(function () {
         secondsLeft--;
-        // 
+        // Conditions for stopping the timer and ending the quiz.
         if (questionCounter >= questionBank.length || secondsLeft <= 0) {
             // stop the timer
             clearInterval(timerInterval);
@@ -137,13 +135,14 @@ function setTime() {
             // When the Submit button is pressed, do the following:
             submitEl.addEventListener("click", function (event) {
                 event.preventDefault();
+                // If an invalid value was entered, notify the player.
                 if (inputEl.value === "") {
                     timeEl.textContent = "Please enter text in the field";
                     timeEl.style.color = "blue";
                 } else {
-
+                    // If a valid value was entered, remove the intials entry items and add elements to display the last three scores in local storage.
                     saveLastScore();
-                    document.body.children[4].removeChild(inputEl); 
+                    document.body.children[4].removeChild(inputEl);
                     document.body.children[4].removeChild(labelEl);
                     document.body.children[4].removeChild(submitEl);
                     document.body.children[4].appendChild(highScoreList);
@@ -153,6 +152,7 @@ function setTime() {
                     timeEl.textContent = "High Scores!!";
                     timeEl.style.color = "black";
                     renderScores();
+                    // Check that local storage has values to pull. If not, display "-----" for the 2nd and 3rd scores.
                     highScore1.textContent = highRecordedScore1.player + "   scored a   " + highRecordedScore1.score;
                     if (highRecordedScore2.player !== "-") {
                         highScore2.textContent = highRecordedScore2.player + "   scored a   " + highRecordedScore2.score;
@@ -164,12 +164,10 @@ function setTime() {
                     } else {
                         highScore3.textContent = "-----";
                     }
-
-                    timeEl.style.color = "black";
                 }
             })
 
-
+// Actions if conditions for stopping the timer are not met.
         } else {
             // Display countdown.
             timeEl.textContent = secondsLeft + " seconds remaining";
@@ -193,7 +191,7 @@ function setTime() {
     }, 1000);
 }
 
-// Configure the event listeners on the answers to perform the correct function when the right and wrong answers are selected
+// Configure the event listeners on the answers to execute the correct function when the right and wrong answers are selected
 function setAnswers() {
     answer1Field.addEventListener("click", checkAnswer1);
     answer2Field.addEventListener("click", checkAnswer2);
@@ -201,12 +199,14 @@ function setAnswers() {
     answer4Field.addEventListener("click", checkAnswer4);
 }
 
+// For the next 4 functions below, check that the answer clicked on is the right one and display the appropriate message and carry out the appropriate actions.
 function checkAnswer1() {
     if (rightAnswerKey === "1") {
         resultField.textContent = "CORRECT!";
         resultField.style.color = "green";
         // Increment the question counter
         questionCounter++;
+        // Empty the rightAnswerKey variable.
         rightAnswerKey === "";
         // Go to the next question
         nextQuestion(questionCounter);
@@ -215,9 +215,11 @@ function checkAnswer1() {
         resultField.style.color = "red";
         // Increment the question counter
         questionCounter++;
-        // Decrement timer
+        // Decrement timer as a score penalty
         secondsLeft = secondsLeft - 10;
+        // Empty the rightAnswerKey variable.
         rightAnswerKey === "";
+        // Go to the next question
         nextQuestion(questionCounter);
     }
 }
@@ -228,6 +230,7 @@ function checkAnswer2() {
         resultField.style.color = "green";
         // Increment the question counter
         questionCounter++;
+        // Empty the rightAnswerKey variable.
         rightAnswerKey === "";
         // Go to the next question
         nextQuestion(questionCounter);
@@ -236,9 +239,11 @@ function checkAnswer2() {
         resultField.style.color = "red";
         // Increment the question counter
         questionCounter++;
-        // Decrement timer
+        // Decrement timer as a score penalty
         secondsLeft = secondsLeft - 10;
+        // Empty the rightAnswerKey variable.
         rightAnswerKey === "";
+        // Go to the next question
         nextQuestion(questionCounter);
     }
 }
@@ -249,6 +254,7 @@ function checkAnswer3() {
         resultField.style.color = "green";
         // Increment the question counter
         questionCounter++;
+        // Empty the rightAnswerKey variable.
         rightAnswerKey === "";
         // Go to the next question
         nextQuestion(questionCounter);
@@ -257,9 +263,11 @@ function checkAnswer3() {
         resultField.style.color = "red";
         // Increment the question counter
         questionCounter++;
-        // Decrement timer
+        // Decrement timer as a score penalty
         secondsLeft = secondsLeft - 10;
+        // Empty the rightAnswerKey variable.
         rightAnswerKey === "";
+        // Go to the next question
         nextQuestion(questionCounter);
     }
 }
@@ -270,6 +278,7 @@ function checkAnswer4() {
         resultField.style.color = "green";
         // Increment the question counter
         questionCounter++;
+        // Empty the rightAnswerKey variable.
         rightAnswerKey === "";
         // Go to the next question
         nextQuestion(questionCounter);
@@ -278,14 +287,19 @@ function checkAnswer4() {
         resultField.style.color = "red";
         // Increment the question counter
         questionCounter++;
-        // Decrement timer
+        // Decrement timer as a score penalty
         secondsLeft = secondsLeft - 10;
+        // Empty the rightAnswerKey variable.
         rightAnswerKey === "";
+        // Go to the next question
         nextQuestion(questionCounter);
     }
 }
+
+// Actions to be taken when proceeding to the next question in the quiz.
 function nextQuestion(questionCounter) {
 
+    // Check if there is a next question to pull from the question bank. If not, do not proceed.
     if (questionBank[questionCounter] === undefined) {
         return;
     } else {
@@ -315,7 +329,7 @@ function saveLastScore() {
         scoresArray.unshift(lastScore);
         localStorage.setItem("storedScores", JSON.stringify(scoresArray));
     } else {
-        // If scores exist in local storage, parse the stored data into the scoresArray, then add the last score to the scoresArray.
+        // If scores exist in local storage, parse the stored data into the scoresArray, then add the last score to the beginning of the scoresArray. Then stringify the changed array and store it in local storage.
         scoresArray = JSON.parse(localStorage.getItem("storedScores"));
         scoresArray.unshift(lastScore);
         localStorage.setItem("storedScores", JSON.stringify(scoresArray));
@@ -347,5 +361,5 @@ function startQuiz() {
 
 }
 
-
+// Configure the application for launch.
 startQuiz();
