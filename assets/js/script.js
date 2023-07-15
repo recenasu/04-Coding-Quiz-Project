@@ -32,7 +32,7 @@ var question001 = {
     answerDisplayed1: "Add, Subtract, Multiply, Divide",
     answerDisplayed2: "The browser",
     answerDisplayed3: "Computer memory",
-    answerDisplayed4: "A resusable block of code that performs specific tasks",
+    answerDisplayed4: "A reusable block of code that performs specific tasks",
     correctAnswer: "4"
 };
 
